@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
          
   has_many :books ,dependent: :destroy
+  has_many :comments ,dependent: :destroy
   has_one_attached :profile_image
   
   validates :name, uniqueness: true, length: { in: 2..20 }
