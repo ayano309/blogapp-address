@@ -33,6 +33,12 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       # t.datetime :locked_at
       t.string :name, null:false
       t.text :introduction
+      
+      t.integer :postal_code, null: false
+      t.string :prefecture_code, null: false
+      t.string :city, null: false
+      t.string :street, null: false
+      t.string :other_address 
 
 
       t.timestamps null: false
