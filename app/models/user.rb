@@ -7,10 +7,19 @@ class User < ApplicationRecord
   has_many :books ,dependent: :destroy
   has_many :comments ,dependent: :destroy
   has_many :favorites, dependent: :destroy
+  
+  has_many :following_relationships, foreign_key: 'follower_id', class_name: 'Relationship', dependent: :destroy
+  has_many :followings, through: :following_relationships, source: :following
+  
+  has_many :follower_relationships, foreign_key: 'following_id', class_name: 'Relationship', dependent: :destroy
+  has_many :followers, through: :follower_relationships, source: :follower
+  
   has_one_attached :profile_image
   
   validates :name, uniqueness: true, length: { in: 2..20 }
   validates :introduction, length: { maximum: 50 }
+  
+  
   
   def get_profile_image(width, height)
     unless profile_image.attached?
@@ -19,4 +28,32 @@ class User < ApplicationRecord
     end
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
+  
+  def follow!(user)
+    user_id = get_user_id(user)
+     
+    following_relationships.create!(following_id: user_id)
+  end
+  
+  def unfollow!(user)
+    user_id = get_user_id(user)
+    
+    relation = following_relationships.find_by!(following_id: user_id)
+    relation.destroy!
+  end
+  
+  def has_followed?(user)
+    following_relationships.exists?(following_id: user.id)
+  end
+  
+  private
+  def get_user_id(user)
+    if user.is_a?(User)
+      user.id
+    else
+      user
+    end
+  end
+  
+  
 end
