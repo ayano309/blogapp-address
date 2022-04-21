@@ -1,0 +1,9 @@
+<%= form_with model: [book, comment], local: false do |f| %>
+  <div class="form-group">
+    <%= f.label :comment%>
+    <%= f.text_field :content,class: "form-control"  %>
+   </div>
+  <div class="form-group">
+		<%= f.submit "Create comment", class: "btn btn-primary" %>
+	</div> 
+<% end %>
