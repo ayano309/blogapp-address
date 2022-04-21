@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'followings/index'
+  get 'followers/index'
   root to: 'homes#index'
    get "home/about" => "homes#about", as: "about"
   devise_for :users
@@ -10,5 +12,7 @@ Rails.application.routes.draw do
    resources :users ,only: [:index, :show, :edit, :update] do
     resources :follows, only: [:create]
     resources :unfollows, only: [:create]
+    resources :followings, only: [:index]
+    resources :followers, only: [:index]
    end
 end
