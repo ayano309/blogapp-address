@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
-  get 'followings/index'
-  get 'followers/index'
   root to: 'homes#index'
-   get "home/about" => "homes#about", as: "about"
+  get "home/about" => "homes#about", as: "about"
+  get "search" => "searches#search"
   devise_for :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :books do
